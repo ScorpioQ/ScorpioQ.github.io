@@ -5,10 +5,10 @@
 # Site
 title: Hexo
 subtitle: ''
-description: ''
+description: 'this is a test'
 keywords:
-author: John Doe
-language: en
+author: Mi Qiao
+language: zh-Hans
 timezone: ''
 
 # URL
@@ -97,7 +97,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -105,4 +105,4 @@ deploy:
   type: git
   repo:
     github: https://github.com/ScorpioQ/ScorpioQ.github.io.git
-  branch: dev
+  branch: master
