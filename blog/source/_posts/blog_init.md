@@ -116,3 +116,7 @@ rating:
 <br/>
 <img src="test_rating.png" alt="打分效果图" width="50%" height="50%" stype="vertical-align:middle">
 <br/>
+
+# README.md，CNAME文件被覆盖问题
+hexo默认部署之后在根目录是没有这俩文件的，如果手动加上，再次`hexo deploy`之后，会发现文件又没了
+解决方法：将这俩文件放在hexo项目的source/下面，`hexo g`之后，生成文件的根目录就有了
