@@ -117,6 +117,53 @@ rating:
 <img src="test_rating.png" alt="打分效果图" width="50%" height="50%" stype="vertical-align:middle">
 <br/>
 
+
+# 添加字数统计和阅读时长
+`$ npm i --save hexo-wordcount`
+打开主题配置文件_config.yml，找到post_wordcount选项。
+```
+# Post wordcount display settings
+# Dependencies: https://github.com/willin/hexo-wordcount
+post_wordcount:
+  item_text: true
+  wordcount: true
+  min2read: true
+  totalcount: true
+  separated_meta: true
+```
+
+# 配置404页面
+在theme/next/source下创建404.html，在本地没法测试这个页面，更新到GitHub之后，输入一个不存在的path就可以测试了，https://scorpioq.site/test_404
+```
+---
+title: 404
+date: 2021-03-26 22:45:14
+
+type: "404"
+layout: "404"
+comments: false
+---
+
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8;"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="robots" content="all" />
+  <meta name="robots" content="index,follow"/>
+</head>
+<body>
+  <script type="text/javascript" src="//qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js" charset="utf-8" homePageUrl="https://scorpioq.site" homePageName="返回<游戏程序猿的生活>"></script>
+</body>
+</html>
+```
+
+
 # README.md，CNAME文件被覆盖问题
 hexo默认部署之后在根目录是没有这俩文件的，如果手动加上，再次`hexo deploy`之后，会发现文件又没了
 解决方法：将这俩文件放在hexo项目的source/下面，`hexo g`之后，生成文件的根目录就有了
+
+
+# Next主题
+https://theme-next.iissnan.com/
+这个主题可配置的元素特别多，可以慢慢研究研究
