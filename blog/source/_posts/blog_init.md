@@ -1,7 +1,10 @@
 ---
 title: Hexo+Github Pages 博客搭建
 date: 2021-03-26 22:15:36
-tags: [Hexo]
+tags: 
+- Hexo
+categories: 
+- 博客
 ---
 
 环境：macOS 11.2.3
