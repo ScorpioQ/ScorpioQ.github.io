@@ -1,5 +1,6 @@
 ---
 title: MongoDB聚合操作
+notshow: false
 date: 2021-04-14 16:52:18
 tags:
 - 数据库
@@ -9,13 +10,14 @@ categories:
 - MongoDB
 ---
 
+MongoDB中聚合操作是将查询到的数据通过一个流水线，经一次或多次处理后返回结果的操作。比如经过若干条件筛选后，分组统计平均值、求和等等。
+
 # Pipeline、Stage
 <img src="pipeline.png" alt="pipeline示意图" width="50%" height="50%" stype="vertical-align:left">
 ```
 db.collection.aggregate( [ { <stage> }, ... ] )
 ```
 
-<br><br>
 
 # Stage常见操作符
 | Stage | 作用 | 对应SQL |
@@ -34,42 +36,61 @@ db.collection.aggregate( [ { <stage> }, ... ] )
 
 所有操作符：[MongoDB Manual - Aggregation Pipeline Quick Reference](https://docs.mongodb.com/manual/meta/aggregation-quick-reference/)
 
-<br><br>
 
-# 各Stage对应的常见运算符：
+# 各Stage对应的常见运算符
 | $match | $group | $project |
 | :- | :- | :- |
 | $eq/$gt/$gte/$lt/$lte<br>$and/$or/$not/$in<br>$geoWithin/$intersect<br>...... | $sum/$avg<br>$push/$addToSet<br>$first/$last/$max/$min<br>...... | $map/$reduce/$filter<br>$range<br>$multiply/$divide/$substract/$add<br>$year/$month/$dayOfMonth/$hour/$minute/$second<br>......
 
-<br><br>
 
 # 实操用例
 测试数据结构：
-## 1. 基本功能
 ```
-> db.game_king_user.find({aid:35, lv:{$exists:true}}, {_id:0, user_id:1, lv:1}).sort({lv:-1})skip(1).limit(1)
+> db.orders.findOne()
+{
+    _id: ObjectId("5dbe7a545368f69de2b4d36e"),
+    user_id: '1000001',
+    lv: 11,
+    sex: 'male',
+    current_money: 100,
+    avatar_list: [
+        {
+            name: '小强',
+            lv: 100,
+            type: '近战'
+        },
+        {
+            name: '小刚',
+            lv: 150,
+            type: '法系'
+        }
+    ]
+}
+```
 
-> {user_id:"110203678995", lv: 70}
+## 1. 基本功能
+一些简单的查询操作使用普通的查询命令与聚合命令的对比
+```
+> db.collection.find({lv:{$exists:true}}, {_id:0, user_id:1, lv:1}).sort({lv:-1})skip(1).limit(1)
+{user_id:"110203678995", lv: 70}
 
-> db.game_king_user.aggregate([
-    { $match: {aid:35, lv:{$exists:true}} },
+> db.collection.aggregate([
+    { $match: {lv:{$exists:true}} },
     { $sort: {lv:-1} },
     { $skip: 1 },
     { $limit: 1 },
     { $project: {_id:0, user_id:1, '等级':'$lv'} }
 ])
-
-> {user_id:"110203678995", 等级: 70}
+{user_id:"110203678995", 等级: 70}
 ```
 
 $sort、$skip、$limit顺序
 
-MongoCompass
-
 
 ## 2. 求和
+求50级以上玩家总共有多少钱？
 ```
-> db.game_king_user.aggregate([
+> db.collection.aggregate([
     {
         $match: {
             lv: {
@@ -79,40 +100,36 @@ MongoCompass
     }, {
         $group: {
             _id: null,
-            total_a: {
-                $sum: '$current_money.a'
-            },
-            total_b: {
-                $sum: '$current_money.b'
+            total: {
+                $sum: '$current_money'
             }
         }
     }, {
         $project: {
-            '底数': '$total_a',
-            '10^x': '$total_b',
+            '总计': '$total',
             _id: 0
         }
     }
 ])
-
-> {底数: 32.8047157018553, 10^x: 201}
+{总计: 1000000}
 ```
 
 ## 3. 求平均
+求10级以上的男性玩家的平均等级是多少？
 ```
-> db.game_king_user.aggregate([
+> db.collection.aggregate([
     {
         $match: {
-            aid: {
-                $in: [35, 2329]
+            sex: {
+                $in: ['male']
             },
             lv: {
-                $gt: 1
+                $gt: 10
             }
         }
     }, {
         $group: {
-            _id: '$aid',
+            _id: '$sex',
             avg_lv: {
                 $avg: '$lv'
             }
@@ -120,21 +137,17 @@ MongoCompass
     }, {
         $project: {
             _id: 0,
-            'AppId': '$_id',
+            '性别': '$_id',
             '平均等级': '$avg_lv'
         }
     }
 ])
-
-> {AppId: 35, 平均等级: 9.8395061}, {AppId: 2329, 平均等级:8.4914285}
+{性别: 'male', 平均等级: 9.8395061}, {性别: 'male', 平均等级:8.4914285}
 ```
 
 
 ## 4. 数组展开
-
-求所有玩家中，每种等级的角色总数？
-
-$unwind
+$unwind，操作符功能示例：
 ```
 > db.students.find()
 {name:'张三', score:[{subject:'语文',score:84}, {subject:'数学',score:90}]}
@@ -143,8 +156,9 @@ $unwind
 {name:'张三', score:{subject:'语文',score:84}}
 {name:'张三', score:{subject:'数学',score:90}}
 ```
+求所有玩家的游戏人物中，每种等级的角色总数？
 ```
-> db.game_king_user.aggregate([
+> db.collection.aggregate([
     {
         $unwind: '$avatar_list'
     }, {
@@ -156,10 +170,9 @@ $unwind
         }
     }
 ])
-
-> {_id:80, count:3}
-> {_id:56, count:2}
-> ...
+{_id:80, count:3}
+{_id:56, count:2}
+...
 ```
 
 
@@ -167,7 +180,7 @@ $unwind
 分段统计各个等级的玩家数目？
 $bucket
 ```
-db.game_king_user.aggregate([
+db.collection.aggregate([
     {
         $bucket: {
             groupBy: '$lv',
@@ -181,16 +194,15 @@ db.game_king_user.aggregate([
         }
     }
 ])
-
-> {_id:0, count:802}
-> {_id:20, count:4}
-> {_id:40, count:1}
-> {_id:"Other", count:796}
+{_id:0, count:802}
+{_id:20, count:4}
+{_id:40, count:1}
+{_id:"Other", count:796}
 ```
 
 
 ## 6. 多表关联
-$lookup
+$lookup，操作符功能示例：
 ```
 > db.product.find()
 { "_id" : 1, "productname" : "商品1", "price" : 15 }
@@ -213,8 +225,7 @@ $lookup
         }
     }
 ])
-
->{
+{
     "_id":1,
     "productname":"商品1",
     "price":15,
@@ -250,11 +261,12 @@ $lookup
 }
 ```
 
-<br><br>
+
+# MongoDB Compass
+这是官方提供的一个GUI工具，用来做聚合操作非常直观方便。每一个Stage可以单独显示处理后的结果示例，可以方便的调试。
+<img src="mongodb_compass.png" alt="pipeline示意图" width="100%" height="100%" stype="vertical-align:left">
 
 # 参考资料
 [极客时间《MongoDB高手课》](https://time.geekbang.org/course/intro/100040001)
-
 [MongoDB官方文档 - Aggregation](https://docs.mongodb.com/manual/aggregation/)
-
 [MongoDB Compass](https://www.mongodb.com/products/compass)

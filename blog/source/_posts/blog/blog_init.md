@@ -1,5 +1,6 @@
 ---
 title: Hexo+Github Pages 博客搭建
+notshow: false
 date: 2021-03-26 22:15:36
 tags: 
 - Hexo
@@ -20,7 +21,7 @@ $ brew install npm
 ```
 
 
-# 安装Hexo
+# 安装Hexo
 ```
 $ npm install -g hexo
 ```
@@ -99,7 +100,7 @@ valine:
   appid: # your leancloud application appid
   appkey: # your leancloud application appkey
 ```
-在这个地方 https://leancloud.cn 注册账号，然后创建一个应用，在“设置 > 应用Keys”里可以找到appid和appkey。Hexo还支持多种其他评论系统，有空再探索探索～
+在这个地方 https://leancloud.cn 注册账号，然后创建一个应用，在“设置 > 应用Keys”里可以找到appid和appkey。Hexo还支持多种其他评论系统，有空再探索探索～
 <br/>
 <img src="test_comment.png" alt="评论效果图" width="50%" height="50%" stype="vertical-align:middle">
 <br/>
@@ -136,7 +137,7 @@ post_wordcount:
 ```
 
 # 配置404页面
-在theme/next/source下创建404.html，在本地没法测试这个页面，更新到GitHub之后，输入一个不存在的path就可以测试了，https://scorpioq.site/test_404
+在theme/next/source下创建404.html，在本地没法测试这个页面，更新到GitHub之后，输入一个不存在的path就可以测试了，https://scorpioq.site/test_404
 ```
 ---
 title: 404
