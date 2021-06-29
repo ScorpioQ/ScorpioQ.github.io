@@ -306,7 +306,7 @@ font:
   # Global font settings used on <body> element.
   global:
     external: true
-    family: Noto Serif SC
+    family: Noto Sans SC #Noto Serif SC, find in https://fonts.google.com/
     size:
 
   # Font settings for Headlines (h1, h2, h3, h4, h5, h6).
@@ -330,7 +330,7 @@ font:
     size:
 
   # Font settings for <code> and code blocks.
-  ccodes:
+  codes:
     external: true
     family: Roboto Mono
     size:
