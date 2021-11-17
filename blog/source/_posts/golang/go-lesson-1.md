@@ -1,5 +1,5 @@
 ---
-title: 《Go 语言原理与实践》学习记录
+title: 《Go 语言原理与实践》课程笔记
 notshow: false
 date: 2021-11-16 19:53:36
 tags:
