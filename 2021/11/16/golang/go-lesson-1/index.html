@@ -113,13 +113,13 @@
 
 <meta name="description" content="课程链接：Go 语言原理与实践做个简单的记录  开篇词｜扬帆起航，开启 Go 语言学习之旅没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大  Go 中内置数据结构：slice 原理Golang里面只有值传递函数传参会复制，数组会有复制的开销得到Go程序的汇编代码的方法  go tool compile">
 <meta property="og:type" content="article">
-<meta property="og:title" content="&lt;Go 语言原理与实践&gt;学习记录">
+<meta property="og:title" content="《Go 语言原理与实践》课程笔记">
 <meta property="og:url" content="http://example.com/2021/11/16/golang/go-lesson-1/index.html">
 <meta property="og:site_name" content="游戏程序猿的生活">
 <meta property="og:description" content="课程链接：Go 语言原理与实践做个简单的记录  开篇词｜扬帆起航，开启 Go 语言学习之旅没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大  Go 中内置数据结构：slice 原理Golang里面只有值传递函数传参会复制，数组会有复制的开销得到Go程序的汇编代码的方法  go tool compile">
 <meta property="og:locale">
 <meta property="article:published_time" content="2021-11-16T11:53:36.000Z">
-<meta property="article:modified_time" content="2021-11-16T12:08:46.337Z">
+<meta property="article:modified_time" content="2021-11-17T07:06:16.018Z">
 <meta property="article:author" content="ScorpioQ">
 <meta property="article:tag" content="编程语言">
 <meta property="article:tag" content="Golang">
@@ -160,7 +160,7 @@
 
 
 
-  <title><Go 语言原理与实践>学习记录 | 游戏程序猿的生活</title>
+  <title>《Go 语言原理与实践》课程笔记 | 游戏程序猿的生活</title>
   
 
 
@@ -334,7 +334,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"><Go 语言原理与实践>学习记录</h1>
+          <h1 class="post-title" itemprop="name headline">《Go 语言原理与实践》课程笔记</h1>
         
 
         <div class="post-meta">
@@ -421,7 +421,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  190
+                  923
                 </span>
               
 
@@ -437,7 +437,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  4
                 </span>
               
             </div>
@@ -467,13 +467,62 @@
 <p>go tool compile -N -l -S once.go<br>go tool compile -N -l once.go<br>go build -gcflags -S once.go</p>
 </blockquote>
 </li>
-<li><p>Go 中内置数据结构：slice 实践<br>slice容量增长的规则：</p>
+<li><p>Go 中内置数据结构：slice 实践</p>
 </li>
 </ol>
 <ul>
-<li>cap &lt;= 1024, </li>
-<li>cap &gt;  1024, </li>
+<li><p>slice容量增长的规则：<br>cap &lt;  1024, 每次x2<br>cap &gt;= 1024, 每次x1.25</p>
+</li>
+<li><p>内存分配效率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 效率s3 &gt; s2 &gt; s1</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; slice :&#x3D; make([]int, len, cap)</span><br><span class="line">var s1 []int</span><br><span class="line">for i :&#x3D; 0; i &lt; 10000; i++ &#123;</span><br><span class="line">    s1 &#x3D; append(s1, i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">s2 :&#x3D; make([]int, 10000)</span><br><span class="line">for i :&#x3D; 0; i &lt; 10000; i++ &#123;</span><br><span class="line">    s2 &#x3D; append(s2, i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">s3 :&#x3D; make([]int, 0, 10000)</span><br><span class="line">for i :&#x3D; 0; i &lt; 10000; i++ &#123;</span><br><span class="line">    s3[i] &#x3D; i</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>函数内修改slice参数可能会和原slice脱离</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">func modifySlice(s []int) &#123;</span><br><span class="line">	s &#x3D; append(s, 2048)</span><br><span class="line">	s[0] &#x3D; 1024</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	var s1 []int</span><br><span class="line">	for i :&#x3D; 0; i &lt; 3; i++ &#123;</span><br><span class="line">		s1 &#x3D; append(s1, i)</span><br><span class="line">	&#125;</span><br><span class="line">	&#x2F;&#x2F; s1 &#x3D; [0, 1, 2]</span><br><span class="line">	modifySlice(s1)</span><br><span class="line">	&#x2F;&#x2F; s1 &#x3D; [1024, 1, 2]</span><br><span class="line">	&#x2F;&#x2F; 函数内append没触发cap变动，则会修改到原slice</span><br><span class="line">	&#x2F;&#x2F; 函数内append触发cap变动，则内外slice会完全不同了</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>空slice转json</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var s1 []int</span><br><span class="line">b1, _ :&#x3D; json.Marshal(s1)</span><br><span class="line">&#x2F;&#x2F; null</span><br><span class="line"></span><br><span class="line">s2 :&#x3D; []int&#123;&#125;</span><br><span class="line">b2, _ :&#x3D; json.Marshal(s2)</span><br><span class="line">&#x2F;&#x2F; []</span><br></pre></td></tr></table></figure></li>
+<li><p>Bounds Checking Elimination</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func bce(s []int) &#123;</span><br><span class="line">    _ &#x3D; s[3]  &#x2F;&#x2F; 编译器会去除0，1，2下标是否存在的检查，会使得后面的取值更快</span><br><span class="line">    i :&#x3D; 0</span><br><span class="line">    i +&#x3D; s[0]</span><br><span class="line">    i +&#x3D; s[1]</span><br><span class="line">    i +&#x3D; s[2]</span><br><span class="line">    i +&#x3D; s[3]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
+<ol start="4">
+<li>Go 中内置数据结构：map、channel</li>
+</ol>
+<ul>
+<li>map作为函数参数，在函数内修改时会修改原map。和slice对比。</li>
+<li>map的元素不能取地址，因为它会变。<code>&amp;m[1]</code></li>
+<li>map删除key不会自动缩容</li>
+<li>channel是有锁的</li>
+<li>channel底层是个ringbuffer</li>
+<li>channel调用会触发调度</li>
+<li>高并发、高性能编程不适合使用channel</li>
+<li>buffered channel 会发生两次copy<ul>
+<li>send goroutine -&gt; buf</li>
+<li>buf -&gt; receive goroutine</li>
+</ul>
+</li>
+<li>unbuffered channel 会发生一次copy<ul>
+<li>send goroutine -&gt; receive goroutine</li>
+</ul>
+</li>
+<li>unbuffered channel receive 完成send后才返回</li>
+<li>for + select closed channel 会造成死循环<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ch :&#x3D; make(chan int)</span><br><span class="line">go func() &#123;</span><br><span class="line">    ch &lt;- 1</span><br><span class="line">    close(ch)</span><br><span class="line">&#125;()</span><br><span class="line">for &#123;</span><br><span class="line">    select &#123;</span><br><span class="line">        case i :&#x3D; &lt;-ch:</span><br><span class="line">            &#x2F;&#x2F; ...</span><br><span class="line">        default:</span><br><span class="line">            break</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="5">
+<li>通用性能优化技巧</li>
+</ol>
+<ul>
+<li>使用strings.Builder代替bytes.Buffer，少一些copy，效率更好<ul>
+<li>string从设计上是immutable的，所以如果要从slice byte强转，必须保证底层的slice byte不会被修改也不会被回收（如sync.Pool），因为本质上是使用了同一段内存来避免内存拷贝</li>
+<li>同样的，string由于设计上是immutable的，所以如果是强转到slice byte，不可以对slice byte进行写操作，否则行为未定义</li>
+<li>如果不完全了解以上操作可能带来的影响以及后果，一定不要使用</li>
+</ul>
+</li>
+<li>函数返回值比返回指针可能更快，减少内存逃逸，减小GC压力</li>
+<li>atomic代替锁，锁更应该使用在需要锁一段代码的时候，而不是一个变量<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">type counter struct &#123;</span><br><span class="line">    i int32</span><br><span class="line">    m sync.Mutex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func addOne(c *counter) &#123;</span><br><span class="line">    c.m.Lock()</span><br><span class="line">    c.i++</span><br><span class="line">    c.m.Unlock()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 这样更快</span><br><span class="line">type counter struct &#123;</span><br><span class="line">    i int32</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func addOne(c *counter) &#123;</span><br><span class="line">    atomic.AddInt32(&amp;c.i, 1)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>sync.Pool分配回收不应该跨goroutine</li>
+<li>更快的json库，github.com/bytedance/sonic</li>
+</ul>
+<ol start="6">
+<li>锁的适用场景与最佳实践</li>
+</ol>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
       
     </div>
@@ -520,8 +569,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/06/26/career/hard-stupid-bug/" rel="next" title="为什么查了很久的Bug常常是低级错误">
-                <i class="fa fa-chevron-left"></i> 为什么查了很久的Bug常常是低级错误
+              <a href="/2021/04/14/database/mongodb/mongodb-1/" rel="next" title="MongoDB聚合操作">
+                <i class="fa fa-chevron-left"></i> MongoDB聚合操作
               </a>
             
           </div>
@@ -603,7 +652,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -614,7 +663,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -625,7 +674,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -706,7 +755,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">4.1k</span>
+    <span title="Site words total count">3.2k</span>
   
 </div>
 
