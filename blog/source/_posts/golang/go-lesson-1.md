@@ -157,3 +157,31 @@ func addOne(c *counter) {
 - 更快的json库，github.com/bytedance/sonic
 
 6. 锁的适用场景与最佳实践
+- 并发读写string、map、slice、结构体都是不安全的
+- 锁的性能问题
+    - 缩小锁的代码范围，注意所有分支都应覆盖解锁操作
+    - 减小锁的粒度，一把大锁->多个小锁，空间换时间
+    - 读写分离，sync.RWMutex，sync.Map
+    - 无锁化，利用原子操作atomic
+
+7. 锁的避坑指南与实现原理
+- 锁是不能拷贝的，拷贝之后是新的锁。sync模块的各种数据结构都如此
+- go vet命令可以对代码进行静态检查，有些非编译错误的问题可以检查到
+- sync.Mutex不可重入，不能重复调用加锁
+- atomic.Value数据取出来之后，不能保证数据并发安全，如果是一个map，必须从代码逻辑中保证这个数据不会出现并发问题
+- race可以检测并发读写的问题
+    - go build -race ...
+    - go run -race ...
+    - go test -race ...
+    - 性能开销很大，只在测试环境做
+- 自旋锁，CAS持续尝试，成功为止
+<img src="go-lesson-1-7-1.png" alt="自旋锁" width="30%" height="30%" stype="horizontal-align:left">
+- runtime.Gosched()可以让出CPU时间片
+- sync.Mutex实现
+<img src="go-lesson-1-7-2.png" alt="mutex结构" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-3.png" alt="mutex lock过程1" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-4.png" alt="mutex lock过程2" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-5.png" alt="mutex unlock过程1" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-6.png" alt="mutex unlock过程2" width="50%" height="50%" stype="horizontal-align:left">
+
+8. 内存管理的基础理论
