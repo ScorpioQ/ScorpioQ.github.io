@@ -118,13 +118,20 @@
 <meta property="og:site_name" content="游戏程序猿的生活">
 <meta property="og:description" content="课程链接：Go 语言原理与实践做个简单的记录  开篇词｜扬帆起航，开启 Go 语言学习之旅没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大  Go 中内置数据结构：slice 原理Golang里面只有值传递函数传参会复制，数组会有复制的开销得到Go程序的汇编代码的方法  go tool compile">
 <meta property="og:locale">
+<meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-1.png">
+<meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-2.png">
+<meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-3.png">
+<meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-4.png">
+<meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-5.png">
+<meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-6.png">
 <meta property="article:published_time" content="2021-11-16T11:53:36.000Z">
-<meta property="article:modified_time" content="2021-11-17T07:06:16.018Z">
+<meta property="article:modified_time" content="2021-11-18T11:56:53.087Z">
 <meta property="article:author" content="ScorpioQ">
 <meta property="article:tag" content="编程语言">
 <meta property="article:tag" content="Golang">
 <meta property="article:tag" content="课程">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-1.png">
 
 
 
@@ -421,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  923
+                  1.2k
                 </span>
               
 
@@ -437,7 +444,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  5
                 </span>
               
             </div>
@@ -522,6 +529,42 @@
 </ul>
 <ol start="6">
 <li>锁的适用场景与最佳实践</li>
+</ol>
+<ul>
+<li>并发读写string、map、slice、结构体都是不安全的</li>
+<li>锁的性能问题<ul>
+<li>缩小锁的代码范围，注意所有分支都应覆盖解锁操作</li>
+<li>减小锁的粒度，一把大锁-&gt;多个小锁，空间换时间</li>
+<li>读写分离，sync.RWMutex，sync.Map</li>
+<li>无锁化，利用原子操作atomic</li>
+</ul>
+</li>
+</ul>
+<ol start="7">
+<li>锁的避坑指南与实现原理</li>
+</ol>
+<ul>
+<li>锁是不能拷贝的，拷贝之后是新的锁。sync模块的各种数据结构都如此</li>
+<li>go vet命令可以对代码进行静态检查，有些非编译错误的问题可以检查到</li>
+<li>sync.Mutex不可重入，不能重复调用加锁</li>
+<li>atomic.Value数据取出来之后，不能保证数据并发安全，如果是一个map，必须从代码逻辑中保证这个数据不会出现并发问题</li>
+<li>race可以检测并发读写的问题<ul>
+<li>go build -race …</li>
+<li>go run -race …</li>
+<li>go test -race …</li>
+<li>性能开销很大，只在测试环境做</li>
+</ul>
+</li>
+<li>自旋锁，CAS持续尝试，成功为止<img src="go-lesson-1-7-1.png" alt="自旋锁" width="30%" height="30%" stype="horizontal-align:left"></li>
+<li>runtime.Gosched()可以让出CPU时间片</li>
+<li>sync.Mutex实现<img src="go-lesson-1-7-2.png" alt="mutex结构" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-3.png" alt="mutex lock过程1" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-4.png" alt="mutex lock过程2" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-5.png" alt="mutex unlock过程1" width="50%" height="50%" stype="horizontal-align:left">
+<img src="go-lesson-1-7-6.png" alt="mutex unlock过程2" width="50%" height="50%" stype="horizontal-align:left"></li>
+</ul>
+<ol start="8">
+<li>内存管理的基础理论</li>
 </ol>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
       
@@ -755,7 +798,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">3.2k</span>
+    <span title="Site words total count">3.5k</span>
   
 </div>
 
