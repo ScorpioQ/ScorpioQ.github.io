@@ -111,12 +111,12 @@
 
 
 
-<meta name="description" content="课程链接：Go 语言原理与实践做个简单的记录  开篇词｜扬帆起航，开启 Go 语言学习之旅没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大  Go 中内置数据结构：slice 原理Golang里面只有值传递函数传参会复制，数组会有复制的开销得到Go程序的汇编代码的方法  go tool compile">
+<meta name="description" content="课程链接：Go 语言原理与实践做个简单的记录 开篇词｜扬帆起航，开启 Go 语言学习之旅没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大 Go 中内置数据结构：slice 原理Golang里面只有值传递函数传参会复制，数组会有复制的开销得到Go程序的汇编代码的方法  go tool compile -N">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Go 语言原理与实践》课程笔记">
 <meta property="og:url" content="http://example.com/2021/11/16/golang/go-lesson-1/index.html">
 <meta property="og:site_name" content="游戏程序猿的生活">
-<meta property="og:description" content="课程链接：Go 语言原理与实践做个简单的记录  开篇词｜扬帆起航，开启 Go 语言学习之旅没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大  Go 中内置数据结构：slice 原理Golang里面只有值传递函数传参会复制，数组会有复制的开销得到Go程序的汇编代码的方法  go tool compile">
+<meta property="og:description" content="课程链接：Go 语言原理与实践做个简单的记录 开篇词｜扬帆起航，开启 Go 语言学习之旅没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大 Go 中内置数据结构：slice 原理Golang里面只有值传递函数传参会复制，数组会有复制的开销得到Go程序的汇编代码的方法  go tool compile -N">
 <meta property="og:locale">
 <meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-1.png">
 <meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-2.png">
@@ -125,7 +125,7 @@
 <meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-5.png">
 <meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-6.png">
 <meta property="article:published_time" content="2021-11-16T11:53:36.000Z">
-<meta property="article:modified_time" content="2021-11-18T11:56:53.087Z">
+<meta property="article:modified_time" content="2021-11-19T10:22:45.835Z">
 <meta property="article:author" content="ScorpioQ">
 <meta property="article:tag" content="编程语言">
 <meta property="article:tag" content="Golang">
@@ -428,7 +428,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.2k
+                  1.3k
                 </span>
               
 
@@ -466,18 +466,12 @@
 
       
         <p>课程链接：<a target="_blank" rel="noopener" href="https://juejin.cn/video/7027031673329942532">Go 语言原理与实践</a><br>做个简单的记录</p>
-<ol>
-<li><p>开篇词｜扬帆起航，开启 Go 语言学习之旅<br>没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大</p>
-</li>
-<li><p>Go 中内置数据结构：slice 原理<br>Golang里面只有值传递<br>函数传参会复制，数组会有复制的开销<br><a target="_blank" rel="noopener" href="https://colobu.com/2018/12/29/get-assembly-output-for-go-programs/">得到Go程序的汇编代码的方法</a></p>
+<h1 id="开篇词｜扬帆起航，开启-Go-语言学习之旅"><a href="#开篇词｜扬帆起航，开启-Go-语言学习之旅" class="headerlink" title="开篇词｜扬帆起航，开启 Go 语言学习之旅"></a>开篇词｜扬帆起航，开启 Go 语言学习之旅</h1><p>没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大</p>
+<h1 id="Go-中内置数据结构：slice-原理"><a href="#Go-中内置数据结构：slice-原理" class="headerlink" title="Go 中内置数据结构：slice 原理"></a>Go 中内置数据结构：slice 原理</h1><p>Golang里面只有值传递<br>函数传参会复制，数组会有复制的开销<br><a target="_blank" rel="noopener" href="https://colobu.com/2018/12/29/get-assembly-output-for-go-programs/">得到Go程序的汇编代码的方法</a></p>
 <blockquote>
 <p>go tool compile -N -l -S once.go<br>go tool compile -N -l once.go<br>go build -gcflags -S once.go</p>
 </blockquote>
-</li>
-<li><p>Go 中内置数据结构：slice 实践</p>
-</li>
-</ol>
-<ul>
+<h1 id="Go-中内置数据结构：slice-实践"><a href="#Go-中内置数据结构：slice-实践" class="headerlink" title="Go 中内置数据结构：slice 实践"></a>Go 中内置数据结构：slice 实践</h1><ul>
 <li><p>slice容量增长的规则：<br>cap &lt;  1024, 每次x2<br>cap &gt;= 1024, 每次x1.25</p>
 </li>
 <li><p>内存分配效率</p>
@@ -489,10 +483,7 @@
 <li><p>Bounds Checking Elimination</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func bce(s []int) &#123;</span><br><span class="line">    _ &#x3D; s[3]  &#x2F;&#x2F; 编译器会去除0，1，2下标是否存在的检查，会使得后面的取值更快</span><br><span class="line">    i :&#x3D; 0</span><br><span class="line">    i +&#x3D; s[0]</span><br><span class="line">    i +&#x3D; s[1]</span><br><span class="line">    i +&#x3D; s[2]</span><br><span class="line">    i +&#x3D; s[3]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<ol start="4">
-<li>Go 中内置数据结构：map、channel</li>
-</ol>
-<ul>
+<h1 id="Go-中内置数据结构：map、channel"><a href="#Go-中内置数据结构：map、channel" class="headerlink" title="Go 中内置数据结构：map、channel"></a>Go 中内置数据结构：map、channel</h1><ul>
 <li>map作为函数参数，在函数内修改时会修改原map。和slice对比。</li>
 <li>map的元素不能取地址，因为它会变。<code>&amp;m[1]</code></li>
 <li>map删除key不会自动缩容</li>
@@ -512,10 +503,7 @@
 <li>unbuffered channel receive 完成send后才返回</li>
 <li>for + select closed channel 会造成死循环<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ch :&#x3D; make(chan int)</span><br><span class="line">go func() &#123;</span><br><span class="line">    ch &lt;- 1</span><br><span class="line">    close(ch)</span><br><span class="line">&#125;()</span><br><span class="line">for &#123;</span><br><span class="line">    select &#123;</span><br><span class="line">        case i :&#x3D; &lt;-ch:</span><br><span class="line">            &#x2F;&#x2F; ...</span><br><span class="line">        default:</span><br><span class="line">            break</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
-<ol start="5">
-<li>通用性能优化技巧</li>
-</ol>
-<ul>
+<h1 id="通用性能优化技巧"><a href="#通用性能优化技巧" class="headerlink" title="通用性能优化技巧"></a>通用性能优化技巧</h1><ul>
 <li>使用strings.Builder代替bytes.Buffer，少一些copy，效率更好<ul>
 <li>string从设计上是immutable的，所以如果要从slice byte强转，必须保证底层的slice byte不会被修改也不会被回收（如sync.Pool），因为本质上是使用了同一段内存来避免内存拷贝</li>
 <li>同样的，string由于设计上是immutable的，所以如果是强转到slice byte，不可以对slice byte进行写操作，否则行为未定义</li>
@@ -527,10 +515,7 @@
 <li>sync.Pool分配回收不应该跨goroutine</li>
 <li>更快的json库，github.com/bytedance/sonic</li>
 </ul>
-<ol start="6">
-<li>锁的适用场景与最佳实践</li>
-</ol>
-<ul>
+<h1 id="锁的适用场景与最佳实践"><a href="#锁的适用场景与最佳实践" class="headerlink" title="锁的适用场景与最佳实践"></a>锁的适用场景与最佳实践</h1><ul>
 <li>并发读写string、map、slice、结构体都是不安全的</li>
 <li>锁的性能问题<ul>
 <li>缩小锁的代码范围，注意所有分支都应覆盖解锁操作</li>
@@ -540,10 +525,7 @@
 </ul>
 </li>
 </ul>
-<ol start="7">
-<li>锁的避坑指南与实现原理</li>
-</ol>
-<ul>
+<h1 id="锁的避坑指南与实现原理"><a href="#锁的避坑指南与实现原理" class="headerlink" title="锁的避坑指南与实现原理"></a>锁的避坑指南与实现原理</h1><ul>
 <li>锁是不能拷贝的，拷贝之后是新的锁。sync模块的各种数据结构都如此</li>
 <li>go vet命令可以对代码进行静态检查，有些非编译错误的问题可以检查到</li>
 <li>sync.Mutex不可重入，不能重复调用加锁</li>
@@ -563,9 +545,31 @@
 <img src="go-lesson-1-7-5.png" alt="mutex unlock过程1" width="50%" height="50%" stype="horizontal-align:left">
 <img src="go-lesson-1-7-6.png" alt="mutex unlock过程2" width="50%" height="50%" stype="horizontal-align:left"></li>
 </ul>
-<ol start="8">
-<li>内存管理的基础理论</li>
-</ol>
+<h1 id="内存管理的基础理论"><a href="#内存管理的基础理论" class="headerlink" title="内存管理的基础理论"></a>内存管理的基础理论</h1><ul>
+<li>分配与回收</li>
+<li>引用计数</li>
+<li>垃圾回收<ul>
+<li>识别存活对象</li>
+<li>保存存活对象</li>
+<li>清理垃圾对象</li>
+</ul>
+</li>
+</ul>
+<h1 id="内存组织和堆上分配"><a href="#内存组织和堆上分配" class="headerlink" title="内存组织和堆上分配"></a>内存组织和堆上分配</h1><p>todo</p>
+<h1 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h1><p>todo</p>
+<h1 id="内存管理实践"><a href="#内存管理实践" class="headerlink" title="内存管理实践"></a>内存管理实践</h1><h2 id="内存管理数据获取"><a href="#内存管理数据获取" class="headerlink" title="内存管理数据获取"></a>内存管理数据获取</h2><ul>
+<li>GC日志<br>  <code>export GODEBUG=gctrace=1</code></li>
+<li>标准库API<br>  <code>runtime.ReadMemStats</code></li>
+<li>pprof</li>
+<li>Trace<h2 id="内存逃逸条件"><a href="#内存逃逸条件" class="headerlink" title="内存逃逸条件"></a>内存逃逸条件</h2></li>
+<li>过大的变量</li>
+<li>无法确定常量大小的slice分配</li>
+<li>指针，map，slice类型返回值的变量</li>
+<li>变量被closure捕捉</li>
+<li>变量被map，slice，chan引用</li>
+</ul>
+<h1 id="调度循环的建立"><a href="#调度循环的建立" class="headerlink" title="调度循环的建立"></a>调度循环的建立</h1><p>todo</p>
+<h1 id="调度的协作与抢占机制"><a href="#调度的协作与抢占机制" class="headerlink" title="调度的协作与抢占机制"></a>调度的协作与抢占机制</h1><p>todo</p>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
       
     </div>
@@ -675,8 +679,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -771,6 +784,22 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E7%AF%87%E8%AF%8D%EF%BD%9C%E6%89%AC%E5%B8%86%E8%B5%B7%E8%88%AA%EF%BC%8C%E5%BC%80%E5%90%AF-Go-%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0%E4%B9%8B%E6%97%85"><span class="nav-number">1.</span> <span class="nav-text">开篇词｜扬帆起航，开启 Go 语言学习之旅</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-%E4%B8%AD%E5%86%85%E7%BD%AE%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9Aslice-%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">Go 中内置数据结构：slice 原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-%E4%B8%AD%E5%86%85%E7%BD%AE%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9Aslice-%E5%AE%9E%E8%B7%B5"><span class="nav-number">3.</span> <span class="nav-text">Go 中内置数据结构：slice 实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Go-%E4%B8%AD%E5%86%85%E7%BD%AE%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%9Amap%E3%80%81channel"><span class="nav-number">4.</span> <span class="nav-text">Go 中内置数据结构：map、channel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7"><span class="nav-number">5.</span> <span class="nav-text">通用性能优化技巧</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B8%8E%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="nav-number">6.</span> <span class="nav-text">锁的适用场景与最佳实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E9%81%BF%E5%9D%91%E6%8C%87%E5%8D%97%E4%B8%8E%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">7.</span> <span class="nav-text">锁的避坑指南与实现原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E7%9A%84%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA"><span class="nav-number">8.</span> <span class="nav-text">内存管理的基础理论</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%BB%84%E7%BB%87%E5%92%8C%E5%A0%86%E4%B8%8A%E5%88%86%E9%85%8D"><span class="nav-number">9.</span> <span class="nav-text">内存组织和堆上分配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">10.</span> <span class="nav-text">垃圾回收机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E5%AE%9E%E8%B7%B5"><span class="nav-number">11.</span> <span class="nav-text">内存管理实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E6%95%B0%E6%8D%AE%E8%8E%B7%E5%8F%96"><span class="nav-number">11.1.</span> <span class="nav-text">内存管理数据获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E9%80%83%E9%80%B8%E6%9D%A1%E4%BB%B6"><span class="nav-number">11.2.</span> <span class="nav-text">内存逃逸条件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="nav-number">12.</span> <span class="nav-text">调度循环的建立</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E5%BA%A6%E7%9A%84%E5%8D%8F%E4%BD%9C%E4%B8%8E%E6%8A%A2%E5%8D%A0%E6%9C%BA%E5%88%B6"><span class="nav-number">13.</span> <span class="nav-text">调度的协作与抢占机制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
 
       
 
@@ -798,7 +827,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">3.5k</span>
+    <span title="Site words total count">3.6k</span>
   
 </div>
 
