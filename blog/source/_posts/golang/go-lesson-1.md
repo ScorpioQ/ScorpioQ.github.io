@@ -14,10 +14,10 @@ categories:
 课程链接：[Go 语言原理与实践](https://juejin.cn/video/7027031673329942532)
 做个简单的记录
 
-1. 开篇词｜扬帆起航，开启 Go 语言学习之旅
+# 开篇词｜扬帆起航，开启 Go 语言学习之旅
 没什么可记录的，这个讲师吴迪是公司Kitex的作者，平时在头条圈貌似很活跃，很喜欢发言，总有种拽拽的感觉，看到真人的形象感觉和想象的差距还有点大
 
-2. Go 中内置数据结构：slice 原理
+# Go 中内置数据结构：slice 原理
 Golang里面只有值传递
 函数传参会复制，数组会有复制的开销
 [得到Go程序的汇编代码的方法](https://colobu.com/2018/12/29/get-assembly-output-for-go-programs/)
@@ -25,7 +25,7 @@ Golang里面只有值传递
 > go tool compile -N -l once.go
 > go build -gcflags -S once.go
 
-3. Go 中内置数据结构：slice 实践
+# Go 中内置数据结构：slice 实践
 - slice容量增长的规则：
 cap <  1024, 每次x2
 cap >= 1024, 每次x1.25
@@ -94,7 +94,7 @@ func bce(s []int) {
 }
 ```
 
-4. Go 中内置数据结构：map、channel
+# Go 中内置数据结构：map、channel
 - map作为函数参数，在函数内修改时会修改原map。和slice对比。
 - map的元素不能取地址，因为它会变。`&m[1]`
 - map删除key不会自动缩容
@@ -125,7 +125,7 @@ for {
 }
 ```
 
-5. 通用性能优化技巧
+# 通用性能优化技巧
 - 使用strings.Builder代替bytes.Buffer，少一些copy，效率更好
     - string从设计上是immutable的，所以如果要从slice byte强转，必须保证底层的slice byte不会被修改也不会被回收（如sync.Pool），因为本质上是使用了同一段内存来避免内存拷贝
     - 同样的，string由于设计上是immutable的，所以如果是强转到slice byte，不可以对slice byte进行写操作，否则行为未定义
@@ -156,7 +156,7 @@ func addOne(c *counter) {
 - sync.Pool分配回收不应该跨goroutine
 - 更快的json库，github.com/bytedance/sonic
 
-6. 锁的适用场景与最佳实践
+# 锁的适用场景与最佳实践
 - 并发读写string、map、slice、结构体都是不安全的
 - 锁的性能问题
     - 缩小锁的代码范围，注意所有分支都应覆盖解锁操作
@@ -164,7 +164,7 @@ func addOne(c *counter) {
     - 读写分离，sync.RWMutex，sync.Map
     - 无锁化，利用原子操作atomic
 
-7. 锁的避坑指南与实现原理
+# 锁的避坑指南与实现原理
 - 锁是不能拷贝的，拷贝之后是新的锁。sync模块的各种数据结构都如此
 - go vet命令可以对代码进行静态检查，有些非编译错误的问题可以检查到
 - sync.Mutex不可重入，不能重复调用加锁
@@ -184,4 +184,37 @@ func addOne(c *counter) {
 <img src="go-lesson-1-7-5.png" alt="mutex unlock过程1" width="50%" height="50%" stype="horizontal-align:left">
 <img src="go-lesson-1-7-6.png" alt="mutex unlock过程2" width="50%" height="50%" stype="horizontal-align:left">
 
-8. 内存管理的基础理论
+# 内存管理的基础理论
+- 分配与回收
+- 引用计数
+- 垃圾回收
+    - 识别存活对象
+    - 保存存活对象
+    - 清理垃圾对象
+
+# 内存组织和堆上分配
+todo
+
+# 垃圾回收机制
+todo
+
+# 内存管理实践
+## 内存管理数据获取
+- GC日志
+    `export GODEBUG=gctrace=1`
+- 标准库API
+    `runtime.ReadMemStats`
+- pprof
+- Trace
+## 内存逃逸条件
+- 过大的变量
+- 无法确定常量大小的slice分配
+- 指针，map，slice类型返回值的变量
+- 变量被closure捕捉
+- 变量被map，slice，chan引用
+
+# 调度循环的建立
+todo
+
+# 调度的协作与抢占机制
+todo
