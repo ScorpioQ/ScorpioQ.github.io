@@ -94,6 +94,7 @@ index_with_subtitle: false
 menu:
   home: /|| home
   about: /about/|| user
+  games: /games/|| steam
   tags: /tags/|| tags
   categories: /categories/|| th
   archives: /archives/|| archive
