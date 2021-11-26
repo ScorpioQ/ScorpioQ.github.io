@@ -125,7 +125,7 @@
 <meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-5.png">
 <meta property="og:image" content="http://example.com/2021/11/16/golang/go-lesson-1/go-lesson-1-7-6.png">
 <meta property="article:published_time" content="2021-11-16T11:53:36.000Z">
-<meta property="article:modified_time" content="2021-11-23T18:36:35.234Z">
+<meta property="article:modified_time" content="2021-11-26T06:21:58.935Z">
 <meta property="article:author" content="ScorpioQ">
 <meta property="article:tag" content="编程语言">
 <meta property="article:tag" content="Golang">
@@ -438,7 +438,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.3k
+                  1.6k
                 </span>
               
 
@@ -454,7 +454,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  6
                 </span>
               
             </div>
@@ -578,8 +578,22 @@
 <li>变量被closure捕捉</li>
 <li>变量被map，slice，chan引用</li>
 </ul>
-<h1 id="调度循环的建立"><a href="#调度循环的建立" class="headerlink" title="调度循环的建立"></a>调度循环的建立</h1><p>todo</p>
-<h1 id="调度的协作与抢占机制"><a href="#调度的协作与抢占机制" class="headerlink" title="调度的协作与抢占机制"></a>调度的协作与抢占机制</h1><p>todo</p>
+<h1 id="调度循环的建立"><a href="#调度循环的建立" class="headerlink" title="调度循环的建立"></a>调度循环的建立</h1><ul>
+<li>schedule函数的主要作用是将Goroutine调度到CPU上执行。调度循环指的是一个线程（或者说M）在整个生命周期中不断地在执行的流程，它不断地从Goroutine可运行队列获取Goroutine来运行。</li>
+<li>调度循环则是一条首尾相接的调用“链路”：<code>schedule -&gt; gogo -&gt; g.fn -&gt; goexit -&gt; schedule</code>，M一直在这条链路中运行，整个Go进程中有很多这样的“链路”在同时执行。</li>
+</ul>
+<h1 id="调度的协作与抢占机制"><a href="#调度的协作与抢占机制" class="headerlink" title="调度的协作与抢占机制"></a>调度的协作与抢占机制</h1><ul>
+<li>同步协作式调度：依靠被调度方主动弃权<ul>
+<li>主动用户让权：通过runtime.Gosched调用主动让出执行机会</li>
+<li>主动调度弃权：执行栈分段时检查自身的抢占标记，决定是否继续执行</li>
+</ul>
+</li>
+<li>异步抢占式调度：依靠调度器强制将被调度方中断<ul>
+<li>被动监控抢占：当G执行时间过长时，sysmon会抢占G</li>
+<li>被动GC抢占：当需要进行垃圾回收时，强制停止所有G</li>
+</ul>
+</li>
+</ul>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kity@2.0.4/dist/kity.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kityminder-core@1.4.50/dist/kityminder.core.min.js"></script><script defer="true" type="text/javascript" src="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/hexo-simple-mindmap@0.2.0/dist/mindmap.min.css">
       
     </div>
@@ -837,7 +851,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">3.6k</span>
+    <span title="Site words total count">3.9k</span>
   
 </div>
 
