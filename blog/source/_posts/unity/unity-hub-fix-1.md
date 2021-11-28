@@ -10,3 +10,5 @@ categories:
 单独安装Unity或者重装了UnityHub之后，UnityHub中的Unity右上角三个点里就没有“添加模块”这个选项了，不太方便，目前只发现两种办法
 1. 删了Unity重新从UnityHub里安装一次
 2. https://unity.cn/releases 找到Unity的版本，点Release notes进去可以单独下载安装对应的模块
+3. 打包Android需要额外注意一个，Release notes中下载的Android Target Support安装之后在Unity目录下\Editor\Data\PlaybackEngines\AndroidPlayer\里面其实还缺了OpenJDK、SDK、NDK，在Unity的菜单栏->Edit->Preferences->External Tools->Android可以看到错误提示，貌似只能从另一个版本添加模块装好Android这些，然后拷过来
+
