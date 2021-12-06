@@ -34,23 +34,17 @@
     </div>
     <div class="post-content">
         <p>Github: <a target="_blank" rel="noopener" href="https://github.com/recastnavigation/recastnavigation">RecastNavigation</a></p>
-<ol>
+<h1 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h1><ol>
 <li>Recast：负责根据提供的模型生成导航网格。</li>
 <li>Detour：利用导航网格做寻路操作。</li>
 <li>DetourCrowd：提供了群体寻路行为的功能。</li>
 <li>Recast Demo：一个很完善的Demo，演示了这个开源库能做的所有功能。</li>
 </ol>
-<p>入手点</p>
-<ol>
-<li><p>RecastDemo中生成导航网格的相关代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;Sample_SoloMesh.cpp:371</span><br><span class="line">bool Sample_SoloMesh::handleBuild()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;Sample_TileMesh.cpp:590</span><br><span class="line">bool Sample_TileMesh::handleBuild()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;Sample_TempObstacles.cpp:1194</span><br><span class="line">bool Sample_TempObstacles::handleBuild()</span><br></pre></td></tr></table></figure></li>
-<li><p>RecastDemo中寻路的相关代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;NavMeshTesterTool.cpp:681</span><br><span class="line">void NavMeshTesterTool::recalc()</span><br></pre></td></tr></table></figure></li>
-<li><p>后续研究明白了再写下学习笔记</p>
-</li>
-</ol>
-<p>编译指引<br>Mac：</p>
-<ol>
+<h1 id="入手点"><a href="#入手点" class="headerlink" title="入手点"></a>入手点</h1><h2 id="RecastDemo中生成导航网格的相关代码："><a href="#RecastDemo中生成导航网格的相关代码：" class="headerlink" title="RecastDemo中生成导航网格的相关代码："></a>RecastDemo中生成导航网格的相关代码：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;Sample_SoloMesh.cpp:371</span><br><span class="line">bool Sample_SoloMesh::handleBuild()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;Sample_TileMesh.cpp:590</span><br><span class="line">bool Sample_TileMesh::handleBuild()</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;Sample_TempObstacles.cpp:1194</span><br><span class="line">bool Sample_TempObstacles::handleBuild()</span><br></pre></td></tr></table></figure>
+
+<h2 id="RecastDemo中寻路的相关代码："><a href="#RecastDemo中寻路的相关代码：" class="headerlink" title="RecastDemo中寻路的相关代码："></a>RecastDemo中寻路的相关代码：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; recastnavigation&#x2F;RecastDemo&#x2F;Source&#x2F;NavMeshTesterTool.cpp:681</span><br><span class="line">void NavMeshTesterTool::recalc()</span><br></pre></td></tr></table></figure>
+
+<h1 id="编译指引"><a href="#编译指引" class="headerlink" title="编译指引"></a>编译指引</h1><h2 id="Mac："><a href="#Mac：" class="headerlink" title="Mac："></a>Mac：</h2><ol>
 <li>下载<a target="_blank" rel="noopener" href="https://premake.github.io/download.html">Premake5</a>，放到/usr/local/bin目录下</li>
 <li>下载<a target="_blank" rel="noopener" href="https://www.libsdl.org/download-2.0.php">SDL2</a>，将安装包中的SDL2.framework文件夹放到/Library/Frameworks下</li>
 <li>拉源码，git clone <a target="_blank" rel="noopener" href="https://github.com/recastnavigation/recastnavigation.git">https://github.com/recastnavigation/recastnavigation.git</a></li>
@@ -64,8 +58,7 @@
 <li>如果遇到这个报错，说找不到RecastAssert.h，可尝试将它改成#include “RecastAssert.h”<img src="recast-navigation-install-mac-6.png" alt="panic" stype="horizontal-align:left"></li>
 <li>然后这个Demo就跑起来了，选一个Sample，选一个Input Mesh，然后点Build，接下来就可以在地图中随意选择Start点(双指点击)和End点(单指点击)，就能显示导航路径了，更多功能慢慢探索吧。<img src="recast-navigation-install-mac-7.png" alt="panic" stype="horizontal-align:left"></li>
 </ol>
-<p>Linux：</p>
-<ol>
+<h2 id="Linux："><a href="#Linux：" class="headerlink" title="Linux："></a>Linux：</h2><ol>
 <li>切root，开发机上sudo -i</li>
 <li>安装SDL2，官方说每个Linux发行版到安装方式可能不同，此处给出Debian的，因为我的开发机是安装的Debian～哈哈哈～命令如下，如果提示有其他依赖，依次安装即可<br>apt-get install libsdl2-dev<br>我安装的时候提示缺少了这几个，也需要装一下<br>apt-get install libegl1-mesa-dev libgl1-mesa-dev libgles2-mesa-dev libglu1-mesa-dev libsdl2-dev</li>
 <li>下载<a target="_blank" rel="noopener" href="https://premake.github.io/download.html">Premake5</a>，放到/usr/bin/目录下</li>
