@@ -10,7 +10,7 @@ categories:
 - Golang
 ---
 
-## time.Duration和int64
+# time.Duration和int64
 ```
 type Duration int64
 
@@ -53,7 +53,7 @@ if durationAsInt64 >= waitMs {  // 不小心以为这个判断是 10 >= 500
 }
 ```
 
-## defer
+# defer
 ```
 func main() {
     var i int = 0
@@ -72,7 +72,7 @@ func main() {
 } // 输出1，这种情况叫闭包，匿名函数引用外部变量
 ```
 
-## map[int]struct，无法直接对struct内的变量赋值
+# map[int]struct，无法直接对struct内的变量赋值
 ```
 type person struct {
     name string
@@ -95,7 +95,7 @@ s[1] = &person{"tony", 20}
 s[1].name = "tom"  // 搞定
 ```
 
-## 定长数组无法直接使用sort排序
+# 定长数组无法直接使用sort排序
 ```
 type Avatars [12]Avatar
 
@@ -122,7 +122,7 @@ sort.Sort(user.AvatarList)
 // 换成(a *Avatars)
 ```
 
-## 日期字符串转成时间戳时，注意时区
+# 日期字符串转成时间戳时，注意时区
 ```
 startTime, _ := time.Parse("20060102", t.StartDate)
 if now.After(startTime.AddDate(0, 0, 7).Add(-time.Hour * 8)) {
@@ -130,12 +130,12 @@ if now.After(startTime.AddDate(0, 0, 7).Add(-time.Hour * 8)) {
 }
 ```
 
-## Golang代码重排
+# Golang代码重排
 注意调用栈的顺序，先访问到147行，再回到了141行，代码的执行顺序被编译器优化了
 <img src="go-exp-list-1.png" alt="code" stype="horizontal-align:left">
 <img src="go-exp-list-2.png" alt="panic" stype="horizontal-align:left">
 
-## gjson.Get(...).Value()遇到整形数据时是个float64
+# gjson.Get(...).Value()遇到整形数据时是个float64
 ```
 func ab() interface{} {
     a := "{\"haha\":1}"

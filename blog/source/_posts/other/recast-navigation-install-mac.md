@@ -10,13 +10,14 @@ categories:
 
 Github: [RecastNavigation](https://github.com/recastnavigation/recastnavigation)
 
+# 模块
 1. Recast：负责根据提供的模型生成导航网格。
 2. Detour：利用导航网格做寻路操作。
 3. DetourCrowd：提供了群体寻路行为的功能。
 4. Recast Demo：一个很完善的Demo，演示了这个开源库能做的所有功能。
 
-入手点
-1. RecastDemo中生成导航网格的相关代码：
+# 入手点
+## RecastDemo中生成导航网格的相关代码：
 ```
 // recastnavigation/RecastDemo/Source/Sample_SoloMesh.cpp:371
 bool Sample_SoloMesh::handleBuild()
@@ -28,16 +29,14 @@ bool Sample_TileMesh::handleBuild()
 bool Sample_TempObstacles::handleBuild()
 ```
 
-2. RecastDemo中寻路的相关代码：
+## RecastDemo中寻路的相关代码：
 ```
 // recastnavigation/RecastDemo/Source/NavMeshTesterTool.cpp:681
 void NavMeshTesterTool::recalc()
 ```
 
-3. 后续研究明白了再写下学习笔记
-
-编译指引
-Mac：
+# 编译指引
+## Mac：
 1. 下载[Premake5](https://premake.github.io/download.html)，放到/usr/local/bin目录下
 2. 下载[SDL2](https://www.libsdl.org/download-2.0.php)，将安装包中的SDL2.framework文件夹放到/Library/Frameworks下
 3. 拉源码，git clone https://github.com/recastnavigation/recastnavigation.git
@@ -57,7 +56,7 @@ Mac：
 <img src="recast-navigation-install-mac-7.png" alt="panic" stype="horizontal-align:left">
 
 
-Linux：
+## Linux：
 1. 切root，开发机上sudo -i
 2. 安装SDL2，官方说每个Linux发行版到安装方式可能不同，此处给出Debian的，因为我的开发机是安装的Debian～哈哈哈～命令如下，如果提示有其他依赖，依次安装即可
 apt-get install libsdl2-dev
