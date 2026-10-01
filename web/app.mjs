@@ -1,4 +1,4 @@
-import {checked, readZone, titleUpdate, ready, watchAuth, checkAuth} from './core.mjs?v=20261001-7';
+import {checked, readZone, titleUpdate, ready, watchAuth, checkAuth} from './core.mjs?v=20261001-8';
 const $ = id => document.getElementById(id);
 const message = text => $('message').textContent = text;
 const key = 'dagtodo.web.local.v1';
@@ -37,7 +37,7 @@ function trace(text) {
   authTrace.push(`${new Date().toLocaleTimeString()} ${text}`);
   $('auth-diagnostics').textContent = authTrace.slice(-20).join('\n');
 }
-trace(`页面版本 20261001-7；来源 ${location.origin}；Development`);
+trace(`页面版本 20261001-8；来源 ${location.origin}；Development`);
 window.addEventListener('message', event => {
   let host;
   try {host = new URL(event.origin).hostname;} catch {return;}
@@ -48,8 +48,7 @@ window.addEventListener('message', event => {
     receivedSession = true;
     clearTimeout(loginTimer);
     $('cloud-status').textContent = 'Apple 已返回会话，正在确认 CloudKit 是否接受……';
-    // Let the SDK consume the message first. Never use message data as proof of authentication.
-    setTimeout(() => verifyCloudSession(),1000);
+    // Observe only: the SDK owns callback processing and session rotation.
   }
 });
 function auth(user) {trace(user ? 'SDK 确认已登录' : 'SDK 返回未登录'); clearTimeout(loginTimer); session++; signedIn = Boolean(user); $('read').disabled = !signedIn; $('cloud-tasks').replaceChildren(); $('diagnostics').textContent = '尚未读取'; $('cloud-status').textContent = signedIn ? '已登录 · 开发环境 · 可以读取 App 的记录' : '未登录 · 本地任务仍可使用';}
@@ -58,41 +57,6 @@ function authError(e) {
   const code = String(e.ckErrorCode || 'UNKNOWN');
   trace(`SDK 错误 ${code.replace(/[^A-Z0-9_]/gi,'').slice(0,60)}`);
   $('cloud-status').textContent = `Apple 登录未完成（${code}）。请检查下方登录诊断和 Token 的 Post Message 回调配置。`;
-}
-async function verifyCloudSession() {
-  if (!container) return;
-  const configuration = container.getConfig().apiTokenAuth;
-  trace(`SDK 已持有会话：${Boolean(configuration.ckWebAuthToken)}；会话类型：${typeof configuration.ckWebAuthToken}`);
-  trace('直接向 CloudKit 确认当前用户（保留认证错误）');
-  try {
-    const user = await checkAuth({setUpAuth:() => container.fetchCurrentUserIdentity()});
-    if (!user) throw {ckErrorCode:'EMPTY_USER_IDENTITY'};
-    auth(user);
-  } catch(e) {
-    authError(e);
-    const reason = String(e.reason || e.message || '')
-      .replace(/https?:\/\/\S+/g,'[URL]')
-      .replace(/[A-Za-z0-9_+\/-]{32,}={0,2}/g,'[redacted]')
-      .replace(/[\w.+-]+@[\w.-]+/g,'[account]')
-      .slice(0,300);
-    if (reason) trace(`CloudKit 原因：${reason}`);
-    if (e.ckErrorCode === 'AUTHENTICATION_REQUIRED' && configuration.ckWebAuthToken) {
-      trace('使用官方 users/current 接口交叉验证（绕过 SDK 请求编码）');
-      try {
-        const endpoint = new URL('https://api.apple-cloudkit.com/database/1/iCloud.DAGTodo/development/public/users/current');
-        endpoint.searchParams.set('ckAPIToken',configuration.apiToken);
-        endpoint.searchParams.set('ckWebAuthToken',configuration.ckWebAuthToken);
-        const response = await fetch(endpoint,{credentials:'omit',cache:'no-store',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(15000)});
-        const result = await response.json();
-        trace(`REST HTTP ${response.status}；结果 ${String(result.serverErrorCode || (result.userRecordName ? 'USER_CONFIRMED' : 'UNKNOWN')).replace(/[^A-Z0-9_]/gi,'')}`);
-        if (result.uuid) trace(`请求标识 ${String(result.uuid).replace(/[^A-Za-z0-9-]/g,'').slice(0,64)}`);
-        if (response.ok && result.userRecordName) {
-          trace('REST 已确认用户，SDK 链路仍失败；尚不启用 SDK 云端读写');
-        }
-      } catch {trace('REST 验证未完成：网络、CORS 或超时；请检查浏览器网络面板');}
-    }
-    $('cloud-status').textContent = receivedSession ? 'Apple 已返回会话，但 CloudKit 尚未确认登录。具体认证错误见登录诊断。' : 'CloudKit 尚未确认登录，具体错误见登录诊断。';
-  }
 }
 $('apple-sign-in-button').addEventListener('click', () => {
   clearTimeout(loginTimer);
@@ -109,16 +73,15 @@ $('connect').onsubmit = e => {e.preventDefault(); run($('connect').querySelector
   CloudKit.configure({containers:[{containerIdentifier:'iCloud.DAGTodo',environment:'development',apiTokenAuth:{apiToken:$('token').value.trim(),persist:false}}]});
   container = CloudKit.getDefaultContainer();
   $('token').value = '';
-  $('check-auth').disabled = false;
   trace('容器配置完成，检查当前会话');
   watchAuth(container,auth,authError);
-  try {auth(await checkAuth(container));} catch(e) {authError(e);}
   $('connect').querySelector('button').hidden = true;
+  const initialSession = session;
+  try {
+    const user = await checkAuth(container);
+    if (session === initialSession) auth(user);
+  } catch(e) {if (session === initialSession) authError(e);}
 });};
-$('check-auth').onclick = () => run($('check-auth'), async () => {
-  trace('手动重新检查当前会话');
-  await verifyCloudSession();
-});
 $('read').onclick = () => run($('read'), async () => {
   if (!signedIn) throw new Error('请先登录 iCloud');
   const currentSession = session;

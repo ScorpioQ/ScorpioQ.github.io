@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
 import {checked,readZone,titleUpdate,ready,watchAuth,checkAuth} from './core.mjs';
 const record = {recordName:'test',recordType:'CD_TaskRecord',recordChangeTag:'v1',fields:{CD_title:{value:'before'},CD_tags:{value:'binary'}}};
 assert.deepEqual(titleUpdate(record,' after ').fields,{CD_title:{value:'after'}});
@@ -35,4 +36,7 @@ await new Promise(resolve => setImmediate(resolve));
 assert.equal(events[2].userRecordName,'second-user');
 assert.equal(await checkAuth({setUpAuth:async () => null}),null);
 await assert.rejects(checkAuth({setUpAuth:() => new Promise(() => {})},5),e => e.ckErrorCode === 'AUTH_CHECK_TIMEOUT');
+// Prevent diagnostic probes from reintroducing concurrent requests or taking SDK credentials.
+const appSource = await readFile(new URL('./app.mjs',import.meta.url),'utf8');
+assert.doesNotMatch(appSource,/fetchCurrentUserIdentity|getConfig\(|ckWebAuthToken|verifyCloudSession|fetch\(/);
 console.log('CloudKit pagination, update guards, dependency readiness and login retry/sign-out passed.');
