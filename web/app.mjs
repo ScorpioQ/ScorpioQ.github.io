@@ -1,4 +1,4 @@
-import {checked, readZone, titleUpdate, ready, watchAuth, checkAuth} from './core.mjs?v=20261001-8';
+import {checked, readZone, titleUpdate, ready, watchAuth, checkAuth} from './core.mjs?v=20261001-9';
 const $ = id => document.getElementById(id);
 const message = text => $('message').textContent = text;
 const key = 'dagtodo.web.local.v1';
@@ -37,7 +37,7 @@ function trace(text) {
   authTrace.push(`${new Date().toLocaleTimeString()} ${text}`);
   $('auth-diagnostics').textContent = authTrace.slice(-20).join('\n');
 }
-trace(`页面版本 20261001-8；来源 ${location.origin}；Development`);
+trace(`页面版本 20261001-9；来源 ${location.origin}；Development`);
 window.addEventListener('message', event => {
   let host;
   try {host = new URL(event.origin).hostname;} catch {return;}
@@ -49,6 +49,9 @@ window.addEventListener('message', event => {
     clearTimeout(loginTimer);
     $('cloud-status').textContent = 'Apple 已返回会话，正在确认 CloudKit 是否接受……';
     // Observe only: the SDK owns callback processing and session rotation.
+    loginTimer = setTimeout(() => {
+      if (!signedIn) {trace('收到回调后 30 秒仍无 SDK 登录成功事件'); $('cloud-status').textContent = 'Apple 已返回会话，但 SDK 未确认登录。请使用独立 REST 认证页验证新会话。';}
+    },30000);
   }
 });
 function auth(user) {trace(user ? 'SDK 确认已登录' : 'SDK 返回未登录'); clearTimeout(loginTimer); session++; signedIn = Boolean(user); $('read').disabled = !signedIn; $('cloud-tasks').replaceChildren(); $('diagnostics').textContent = '尚未读取'; $('cloud-status').textContent = signedIn ? '已登录 · 开发环境 · 可以读取 App 的记录' : '未登录 · 本地任务仍可使用';}
