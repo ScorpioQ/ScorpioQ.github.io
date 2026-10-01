@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DAGTodo · 网页互通验证</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23296652'/%3E%3Cpath d='M8 16l5 5 11-12' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+<main>
+<header><span>DAGTodo / WEB LAB</span><h1>关注现在可以开始的事。</h1><p>本地任务保存在此浏览器。iCloud 区域用于验证现有 App 与网页的互通。</p></header>
+<p id="message" role="status" aria-live="polite"></p>
+<section><h2>本地任务</h2><form id="add"><label>任务标题<input id="title" required maxlength="500" placeholder="下一步要做什么？"></label><label>前置任务<select id="prerequisite"><option value="">无前置任务</option></select></label><button>添加任务</button></form><ul id="tasks"></ul><button id="export">导出 JSON 备份</button></section>
+<section><h2>iCloud 互通验证</h2><p>开发环境 · 登录自己的 Apple 账户 · 本地任务暂不自动上传。</p><details><summary>连接配置</summary><form id="connect"><label>CloudKit 网页 API Token<input id="token" required autocomplete="off" spellcheck="false"></label><p>使用 iCloud.DAGTodo 的网页 API Token。不要输入 Apple 密码或服务端私钥。</p><button>启用 iCloud 登录</button></form></details><div id="apple-sign-in-button"></div><div id="apple-sign-out-button"></div><button id="check-auth" disabled>重新检查登录状态</button><button id="read" disabled>读取 App 云端记录</button><details open><summary>登录诊断（不包含 Token 或账户信息）</summary><pre id="auth-diagnostics"></pre></details><p id="cloud-status">尚未配置 iCloud</p><ul id="cloud-tasks"></ul><details><summary>记录字段诊断（仅当前页面显示）</summary><pre id="diagnostics">尚未读取</pre></details></section>
+</main>
+<script type="module" src="app.mjs?v=20261001-7"></script>
+</html>
