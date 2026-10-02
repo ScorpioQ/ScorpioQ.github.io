@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {checked,readZone,titleUpdate,ready,watchAuth,checkAuth} from './core.mjs';
+import {checked,readZone,titleUpdate,ready,watchAuth,checkAuth,callerURL,callerConfirmed} from './core.mjs';
 const record = {recordName:'test',recordType:'CD_TaskRecord',recordChangeTag:'v1',fields:{CD_title:{value:'before'},CD_tags:{value:'binary'}}};
 assert.deepEqual(titleUpdate(record,' after ').fields,{CD_title:{value:'after'}});
 assert.equal(titleUpdate(record,'after').recordChangeTag,'v1');
@@ -39,4 +39,14 @@ await assert.rejects(checkAuth({setUpAuth:() => new Promise(() => {})},5),e => e
 // Prevent diagnostic probes from reintroducing concurrent requests or taking SDK credentials.
 const appSource = await readFile(new URL('./app.mjs',import.meta.url),'utf8');
 assert.doesNotMatch(appSource,/fetchCurrentUserIdentity|getConfig\(|ckWebAuthToken|verifyCloudSession|fetch\(/);
+for (const environment of ['development','production']) {
+  const url=callerURL('api+token/',environment,'session+/=%25');
+  assert.equal(url.pathname,`/database/1/iCloud.DAGTodo/${environment}/public/users/caller`);
+  assert.equal(url.searchParams.get('ckWebAuthToken'),'session+/=%25');
+  assert.equal(url.searchParams.get('ckAPIToken'),'api+token/');
+}
+assert.throws(() => callerURL('test','other','test'));
+assert.equal(callerConfirmed({users:[{userRecordName:'test-user'}]}),true);
+assert.equal(callerConfirmed({users:[]}),false);
+assert.equal(callerConfirmed({userRecordName:'legacy'}),false);
 console.log('CloudKit pagination, update guards, dependency readiness and login retry/sign-out passed.');

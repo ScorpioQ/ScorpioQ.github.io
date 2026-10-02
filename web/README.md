@@ -1,5 +1,7 @@
 # 网页互通验证
 
+2026-10-02 核查整改：REST 独立版本 2 改用 Apple 推荐的 `/users/caller`，按 `users[0].userRecordName` 识别响应；版本 1 的 `/users/current` 已弃用。支持选择 Development / Production，仅验证认证，不操作记录。Development 测试应使用开发团队账户；普通用户应测试 Production。URL 参数编码、环境约束和新版响应解析有本地回归。此前的 REST 421 不能视为已排除过时接口或环境权限的证据。
+
 版本 `20261001-9` 增加 `rest-auth.html` 独立认证页：不加载 SDK，先获取登录地址，随后只用新的回调 Token 发一次 `/users/current` 请求。校验 Apple 消息来源和弹窗 source，不读取或修改任务、不保存凭据、不自动重试。请独立打开此页测试，使用原 Web API Token（Post Message 回调）。此前复用 SDK 会话的验证不作为独立证据。页面语法检查和原有回归通过，真实 REST 认证待用户部署并登录验证。
 
 此目录是可部署至 GitHub Pages 的原生静态页面，无构建工具、无自建服务器。

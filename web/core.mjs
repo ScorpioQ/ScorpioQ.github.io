@@ -59,3 +59,15 @@ export async function checkAuth(container, timeout = 15000) {
     ]);
   } finally {clearTimeout(timer);}
 }
+
+export function callerURL(apiToken, environment, session) {
+  if (!['development','production'].includes(environment)) throw new Error('Invalid CloudKit environment');
+  const url = new URL(`https://api.apple-cloudkit.com/database/1/iCloud.DAGTodo/${environment}/public/users/caller`);
+  url.searchParams.set('ckAPIToken',apiToken);
+  if (session) url.searchParams.set('ckWebAuthToken',session);
+  return url;
+}
+
+export function callerConfirmed(result) {
+  return Array.isArray(result.users) && result.users.length === 1 && typeof result.users[0]?.userRecordName === 'string' && result.users[0].userRecordName.length > 0;
+}
